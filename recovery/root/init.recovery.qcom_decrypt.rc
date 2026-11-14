@@ -1,0 +1,20 @@
+service prepdecrypt /system/bin/prepdecrypt.sh
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+    start prepdecrypt
+    
+
+on fs
+    chmod 0755 /system/bin/prepdecrypt.sh
+    
+
+on property:crypto.ready=1
+    start vendor.qseecomd
+    start vendor.gatekeeper_default
+    start vendor.secure_element
+    start vendor.weaver_thales
+    start vendor.keymint-strongbox_thales
+
